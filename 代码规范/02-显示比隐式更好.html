@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02-显示比隐式更好</title>
+</head>
+
+<body>
+    <script>
+        // 避免心理映射
+        // 不好的
+        const locations = ['Austin', 'New York', 'San Francisco'];
+        locations.forEach((l) => {
+            // doStuff();
+            // doSomeOtherStuff();
+            // ...
+            // ...
+            // ...
+            // 等等， `l` 是啥？
+            dispatch(l);
+        });
+
+        function dispatch(location){
+            console.log(location);
+        }
+
+        // 好的
+        const locations1 = ['Austin', 'New York', 'San Francisco'];
+        locations.forEach((location) => {
+            // doStuff();
+            // doSomeOtherStuff();
+            // ...
+            // ...
+            // ...
+            // 等等， `l` 是啥？
+            dispatch(location);
+        });
+    </script>
+</body>
+
+</html>

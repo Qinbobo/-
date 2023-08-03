@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07--javaScript深入执行上下文</title>
+</head>
+
+<body>
+    <script>
+        var scope = "global scope";
+
+        function checkscope() {
+            var scope = "local scope";
+
+            function fn() {
+                return scope;
+            }
+            return fn;
+        }
+        checkscope()();
+
+        /* 
+        模拟上述代码执行流程
+        1、执行全局上下文，全局上下文被压入全局执行上下文栈中
+        ECStack=[
+            globalContext
+        ]
+        2、全局上下文初始化
+        globalContext={
+            VO:[global, scope, checkscope],
+            Scope:[globalContext.VO],
+            this:globalContext.VO
+        }
+        3、初始化的同时，checkscope被创建，保存作用域链到函数内部属性[[scope]]
+        checkscope.[[scope]] =[
+            globalContext.VO
+        ]
+        
+        4、执行checkscope函数，创建checkscope执行上下文，并把checkscope执行上下文压入执行上下文栈中。
+        ECStack=[
+            checkContext,
+            globalContext
+        ]
+
+        5、checkscope执行上下文初始化
+         -复制函数[[scope]]属性，创建作用域链
+         -使用arguments属性创建活动对象。
+         -初始化活动对象，即加入形参、函数声明、变量声明。
+         -将活动对象压入checkscope作用域链顶端。
+
+        checkscopeContext = {
+            AO:{
+                arguments:{
+                    length:0
+                },
+                f:reference to function(){},
+                scope:undefined
+            },
+            Scope:[AO, globalContext.AO],
+            this:undefined
+        }
+
+        6、执行checkscope函数，修改AO的属性值
+        
+        checkscopeContext = {
+            AO:{
+                arguments:{
+                    length:0
+                },
+                f:reference to function(){},
+                scope:"local scope"
+            },
+            Scope:[AO, globalContext.AO],
+            this:undefined
+        }
+        7、checkscope执行完毕,从执行上下文栈中弹出
+        ECAtack=[
+            globalContext
+        ]
+
+        8、fn被创建，保存作用域链到函数内部属性[[scope]]
+        fn.[[scope]] = [
+            globalContext.VO,
+            checkscopeContext.VO
+        ]
+        9、创建fn执行上下文，并压入执行上下文栈中
+        ECAtack = [
+            fnContext,
+            globalContext
+        ]
+
+        10、fn执行上下文初始化
+         -复制函数[[scope]]属性，创建作用域链
+         -使用arguments属性创建活动对象。
+         -初始化活动对象，即加入形参、函数声明、变量声明。
+         -将活动对象压入fn作用域链顶端。
+
+        fnContext = {
+            AO:{
+                arguments:{
+                    length:0
+                },
+            },
+            Scope:[AO,checkscopeContext.AO, globalContext.AO],
+            this:undefined
+        }
+
+        11、开始执行fn函数，从checkscopeContext作用域中找到scope属性值返回。
+        12、fn函数执行完毕出栈。
+        ECAtack = [
+            globalContext
+        ]
+
+
+        */
+    </script>
+
+</body>
+
+</html>

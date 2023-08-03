@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>执行上下文栈</title>
+</head>
+
+<body>
+    <script>
+        //函数执行是以代码块为基础的，如何划分执行代码块。
+        function foo() {
+            console.log("执行上下文栈")
+        }
+
+        function foo01() {
+            foo()
+        }
+
+        function foo02() {
+            foo01()
+        }
+        foo02()
+
+        //假设ECStrack = []表示执行上下文栈的存储位置,始终存在全局执行上下文globalContant
+        // ECStrack = [
+        //     globalContant
+        // ]
+
+        //foo02()
+        /* 
+        ECStrack.push(<foo02> functionContant) 
+        ECStrack.push(<foo01> functionContant) 
+        ECStrack.push(<foo> functionContant) 
+        // foo执行完毕
+        ECStack.pop();
+        // foo01执行完毕
+        ECStack.pop();
+        // foo02执行完毕
+        ECStack.pop();
+        */
+    </script>
+</body>
+
+</html>

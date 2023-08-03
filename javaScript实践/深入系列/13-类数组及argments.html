@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>13-类数组对象-argments</title>
+</head>
+
+<body>
+    <script>
+        //类数组对象：拥有length属性和若干索引属性的对象。
+        let arr = {
+            0: "name",
+            1: "age",
+            2: "habby",
+            length: 3
+        }
+
+        let res = Array.prototype.slice.call(arr);
+        res.push('曹操')
+        console.log(res)
+
+        let res1 = Array.prototype.splice.call(arr, 0);
+        res1.push('刘备');
+        console.log(res1);
+
+        //callee 属性：可调用函数自身
+        let data = [];
+        for (let i = 0; i < 3; i++) {
+            (data[i] = function () {
+                console.log(arguments.callee.i)
+            }).i = i;
+        }
+        console.log(data);
+
+        data[0]();
+        data[1]();
+        data[2]();
+
+        //使用apply将foo1的参数传递给bar.
+        function foo1() {
+            bar.apply(this, arguments);
+        }
+        function bar(a, b, c) {
+            console.log(a, b, c);
+        }
+
+        foo1(1, 2, 3)
+
+        //使用...可将参数转化为数组
+        function foo2(...arguments){
+            console.log(arguments);
+        }
+        foo2(1,2,3,4,5);
+
+
+        function foo(name, age, sex) {
+            console.log(arguments);
+        }
+
+        foo('name', 'age', 'sex')
+    </script>
+</body>
+
+</html>

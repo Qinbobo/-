@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05-getters和setters</title>
+</head>
+
+<body>
+    <script>
+        /* 
+        JavaScript 没有接口或类型， 所以坚持这个模式是非常困难的， 
+        因为我们没有public和private关键字。 正因为如此， 使用 getters
+         和 setters 来访问对象上的数据比简单的在一个对象上查找属性要好得多 */
+
+        // 不好的
+        class BankAccount {
+            constructor() {
+                this.balance = 1000;
+            }
+        }
+
+        let bank = new BankAccount();
+        //Buy shose...
+        bank.balance -= 100;
+        console.log(bank.balance);
+
+        //好的：
+        class BankAccount1 {
+            constructor(balance = 1000) {
+                this._balance = balance;
+            };
+
+            set balance(amount) {
+                if (this.verifyIfAmountCanBeSetted(amount)) {
+                    this._balance = amount;
+                }
+            }
+            get balance() {
+                return this._balance;
+            }
+            verifyIfAmountCanBeSetted(val) {
+                // ...
+            }
+        }
+
+        const bankAccount = new BankAccount1();
+
+        // Buy shoes...
+        bankAccount.balance -= 200;
+
+        // Get balance
+        let balance = bankAccount.balance;
+        console.log(balance);
+    </script>
+
+</body>
+
+</html>

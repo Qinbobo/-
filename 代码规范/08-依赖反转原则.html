@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>08-依赖反转原则</title>
+</head>
+
+<body>
+    <script>
+        //不好的
+        class InventoryRequester {
+            constructor() {
+                this.REQ_METHODS = ['HTTP'];
+            }
+
+            requestItem(item) {
+                // ...
+            }
+        }
+
+        class InventoryTracker {
+            constructor(items) {
+                this.items = items;
+
+                // 不好的： 我们已经创建了一个对请求的具体实现的依赖， 我们只有一个 requestItems 方法依
+                // 赖一个请求方法 'request'
+                this.requester = new InventoryRequester();
+            }
+
+            requestItems() {
+                this.items.forEach((item) => {
+                    this.requester.requestItem(item);
+                });
+            }
+        }
+
+        const inventoryTracker = new InventoryTracker(['apples', 'bananas']);
+        inventoryTracker.requestItems();
+
+        // 好的
+        class InventoryTracker1 {
+            constructor(items, requester) {
+                this.items = items;
+                this.requester = requester;
+            }
+
+            requestItems() {
+                this.items.forEach((item) => {
+                    this.requester.requestItem(item);
+                });
+            }
+        }
+
+        class InventoryRequesterV1 {
+            constructor() {
+                this.REQ_METHODS = ['HTTP'];
+            }
+
+            requestItem(item) {
+                // ...
+            }
+        }
+
+        class InventoryRequesterV2 {
+            constructor() {
+                this.REQ_METHODS = ['WS'];
+            }
+
+            requestItem(item) {
+                // ...
+            }
+        }
+
+        // 通过外部创建依赖项并将它们注入， 我们可以轻松的用一个崭新的使用 WebSockets 的请求模块进行
+        // 替换。
+        const inventoryTracker1 = new InventoryTracker1(['apples', 'bananas'], new InventoryRequesterV2());
+        inventoryTracker1.requestItems();
+    </script>
+
+</body>
+
+</html>

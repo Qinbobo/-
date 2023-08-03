@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>new的模拟实现</title>
+</head>
+
+<body>
+    <script>
+        function foo(name, age) {
+            this.age = age;
+            return {
+                name: name,
+                habby: '吃饭'
+            }
+        }
+        // foo.prototype.setSay = function(){
+        //     console.log("I am ", this.name);
+        //     console.log(this);
+        // }
+
+        //原始new用法
+        let person = new foo('曹操', 18);
+        console.log(person.name)
+        console.log(person.age)
+        console.log(person.habby)
+        // person.setSay();
+
+        //模拟实现objectNew用法
+        let person01 = objectNew(foo, '孙权', 9);
+        console.log(person.name)
+        console.log(person.age)
+        console.log(person.habby)
+        // person01.setSay();
+
+
+        //模拟实现new
+        function objectNew() {
+            //新建一个对象
+            let obj = new Object();
+            //取出第一个参数，为我们传入的构造函数。shift会修改原数组，所以arguments会被除去第一个元素。
+            Constructor = [].shift.call(arguments);
+            //使obj的原型指向Constructor构造函数，如此obj就能访问到构造函数原型中的属性
+            obj.__proto__ = Constructor.prototype;
+            //使用apply改变构造函数的this指向
+            let ret = Constructor.apply(obj, arguments);
+            //判断函数是否有返回值并且返回值类型是否为object。
+            return typeof ret === "object" ? ret : obj;
+        }
+    </script>
+</body>
+
+</html>

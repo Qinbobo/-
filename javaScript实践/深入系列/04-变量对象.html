@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>变量对象</title>
+</head>
+
+<body>
+    <script>
+        /* var aaaa = 100;
+        console.log("this", this.aaaa); */
+
+        function foo(a) {
+            var b = 2;
+
+            function c() {}
+            var d = function () {};
+
+            b = 3;
+
+        }
+        foo(1);
+        /* 
+        AO--函数执行上下文
+        AO={
+            arguments:{
+                a:1,
+                length:1
+            },
+            a:1,
+            b:undefined,
+            c: reference to function(){},
+            d:undefined
+        }
+
+        ### 函数执行阶段
+        AO={
+            arguments:{
+                a:1,
+                length:1
+            },
+            a:1,
+            b:3,
+            c:reference to function(){},
+            d:reference to functionExpression "d"
+        }
+
+        */
+    </script>
+</body>
+
+</html>

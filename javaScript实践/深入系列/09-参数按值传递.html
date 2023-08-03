@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>参数按值传递</title>
+</head>
+<body>
+    <script>
+        //按值传递，理论上讲所有的函数传参都是按值传递。
+        let value = 1;
+        function fodo(value){
+            value = 3;
+            console.log("value", value);
+        }
+        // fodo(value);
+        // console.log(value);
+
+        //当参数是一个基本数据类型的时候是按值传递，当是复杂类型的时候按引用传递。
+        let obj = {
+            value:1,
+        }
+        function fodo1(obj){
+            obj.value = 3;
+            console.log(obj);
+        }
+        fodo1(obj);
+        console.log("obj", obj);
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03-避免副作用</title>
+</head>
+
+<body>
+    <script>
+        /* 
+        如果一个函数做了除接受一个值然后返回一个值或多个值之外的任何事情， 它将会产生副作用， 
+        它可能是 写入一个文件， 修改一个全局变量， 或者意外的把你所有的钱连接到一个陌生人那里。
+
+        现在在你的程序中确实偶尔需要副作用， 就像上面的代码， 你也许需要写入到一个文件， 
+        你需要做的是集 中化你要做的事情， 不要让多个函数或者类写入一个特定的文件， 
+        用一个服务来实现它， 一个并且只有一 个。
+
+        重点是避免这些常见的易犯的错误， 比如在对象之间共享状态而不使用任何结构， 
+        使用任何地方都可以写入 的可变的数据类型， 没有集中化导致副作用。 如果你能做到这些， 
+        那么你将会比其它的码农大军更加幸福。
+        */
+        let name = '大丈夫身居天地之间 岂能郁郁久居人下'
+
+        function splitName() {
+            name = name.split(' ');
+        }
+        splitName();
+        console.log(name);
+    </script>
+
+</body>
+
+</html>

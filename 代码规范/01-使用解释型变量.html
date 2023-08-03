@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01-使用解释型的变量</title>
+</head>
+
+<body>
+    <script>
+        /* 使用解释型的变量 */
+        // 不好的
+        const address = 'One Infinite Loop, Cupertino 95014';
+        const cityZipCodeRegex = /^[^,\\]+[,\\\s]+(.+?)\s*(\d{5})?$/;
+        saveCityZipCode(address.match(cityZipCodeRegex)[1], address.match(cityZipCodeRegex)[2]);
+
+        function saveCityZipCode(city, ZipCode){
+            console.log(city, ZipCode);
+        }
+
+        // 好的
+        const address1 = 'One Infinite Loop, Cupertino 95014';
+        const cityZipCodeRegex1 = /^[^,\\]+[,\\\s]+(.+?)\s*(\d{5})?$/;
+        const [, city, ZipCode] = address.match(cityZipCodeRegex)
+        saveCityZipCode(city, ZipCode);
+    </script>
+</body>
+
+</html>

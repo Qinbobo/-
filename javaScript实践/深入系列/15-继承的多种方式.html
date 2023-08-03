@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>15-继承的多种方式及优缺点</title>
+</head>
+
+<body>
+    <script>
+        // 原型链继承
+        // 1、引用类型的属性被所有实例所共享。
+        // 2、在创建child时不能向parent传参。
+        function Person(...arguments) {
+            this.names = arguments;
+            this.getName = function () {
+                console.log(this.names);
+            }
+        }
+
+        function Child() {
+
+        }
+        Child.prototype = new Person('孙权');
+
+        let child1 = new Child();
+        child1.names.push('张飞');
+        child1.getName(); //['孙权', '张飞']
+
+        let child2 = new Child();
+        child2.getName(); //['孙权', '张飞']
+
+        //借用构造函数
+        // 1、避免了属性被所有实例所共享。
+        // 2、可以在child中向perent传递参数
+        // 3、方法都在构造函数中，每次创建实例时方法都要被创建一次。
+        function Perent(age) {
+            this.name = ['刘备', '诸葛亮'];
+            this.age = age;
+        }
+
+        function Child1(age) {
+            Perent.call(this, age);
+        }
+
+        let child3 = new Child1(13);
+        child3.name.push('张飞');
+        console.log(child3.name);
+
+        let child4 = new Child1(9);
+        child4.name.push('关羽');
+        console.log(child4.name, child4.age);
+
+        // 组合继承 -- 原型链继承和组合继承双剑合壁。
+        // 融合原型链继承和构造函数的优点，是 JavaScript 中最常用的继承模式。
+        function Parent1(name) {
+            this.name = name;
+            this.habby = ['饮酒', '作诗', '赏舞'];
+        }
+        Parent1.prototype.getName = function () {
+            console.log(this.name);
+        }
+
+        function Child5(name, age){
+            Parent1.call(this, name);
+            this.age =age;
+        }
+
+        Child5.prototype = new Parent1();
+
+        let child5 = new Child5('曹操', 18);
+        child5.habby.push('学习');
+        child5.getName();
+        console.log(child5.habby);
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06-让对象拥有私有成员</title>
+</head>
+
+<body>
+    <script>
+        //不好的
+        const Employee = function (name) {
+            this.name = name;
+        };
+
+        Employee.prototype.getName = function getName() {
+            return this.name;
+        };
+
+        const employee = new Employee('John Doe');
+        console.log(`Employee name: ${employee.getName()}`); // Employee name: John Doe
+        delete employee.name;
+        console.log(`Employee name: ${employee.getName()}`); // Employee name: undefined
+
+        // 好的
+        const Employee1 = function(name){
+            this.getName = function getName(){
+                return name;
+            }
+        }
+        const employee1 = new Employee1('John Doe');
+        console.log(`Employee name: ${employee1.getName()}`); // Employee name: John Doe
+        delete employee1.name;
+        console.log(`Employee name: ${employee1.getName()}`); // Employee name: John Doe
+    </script>
+</body>
+
+</html>

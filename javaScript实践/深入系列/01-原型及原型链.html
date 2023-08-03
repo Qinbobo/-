@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01-原型及原型链</title>
+</head>
+<body>
+    <script>
+        function Person(){
+            console.log("原型链")
+        }
+        Person.prototype.age = 18;
+        const p = new Person();
+        p.name = "李白";
+        console.log(p)
+        console.log(p.__proto__ === Person.prototype);
+        console.log(Person === Person.prototype.constructor);
+        console.log(Object.prototype.__proto__ === null) // true
+        console.log(Person.prototype.__proto__)
+        //原型及原型链示意图
+        // https://excalidraw.com/#json=FZ8pg5KHedsZdht2qqVkm,kT5lvbHBFTAWnGMvbpRsUw
+    </script>
+    
+</body>
+</html>

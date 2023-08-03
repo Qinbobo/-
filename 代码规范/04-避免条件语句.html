@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04-避免条件语句</title>
+</head>
+
+<body>
+    <script>
+        /* 
+        这看起来似乎是一个不可能的任务。 第一次听到这个时， 多数人会说： 
+        “没有 if 语句还能期望我干 啥呢”， 答案是多数情况下你可以使用多
+        态来完成同样的任务。 第二个问题通常是 “好了， 那么做很棒， 但是
+        我为什么想要那样做呢”， 答案是我们学到的上一条代码整洁之道的理念：
+         一个函数应当只做一件事情。 当你有使用 if 语句的类/函数是， 你在
+         告诉你的用户你的函数做了不止一件事情。 记住： 只做一件 事情。
+        */
+
+        //不好的
+        class Airplane {
+            constructor() {
+                this.type = '777';
+            };
+            // ...
+            getCruisingAltitude() {
+                switch (this.type) {
+                    case '777':
+                        return '777';
+                    case 'Air Force One':
+                        return 'Air Force One';
+                    case 'Cessna':
+                        return 'Cessna';
+                }
+            }
+        }
+        const airplane = new Airplane();
+        let res = airplane.getCruisingAltitude();
+        console.log(res);
+        console.log(airplane.type);
+
+        //好的
+        class Airplane1 {
+            //...
+            constructor(){
+                
+            };
+            getAir(air){
+               return air.getCruisingAltitude();
+            }
+            
+        }
+        class Boing777 extends Airplane1 {
+            getCruisingAltitude() {
+                return '777';
+            }
+        }
+        class AirForceOne extends Airplane1 {
+            // ...
+            getCruisingAltitude() {
+                return 'Air Force One';
+            }
+        }
+
+        class Cessna extends Airplane1 {
+            // ...
+            getCruisingAltitude() {
+                return 'Cessna';
+            }
+        }
+        let boing = new Boing777();
+        let air = new Airplane1();
+        let res2 = air.getAir(boing)
+        // let res1 = boing.getCruisingAltitude();
+        console.log(air);
+        console.log(res2);
+        // console.log(boing);
+        // console.log(res1);
+    </script>
+</body>
+
+</html>

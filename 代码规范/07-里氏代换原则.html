@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07-里氏代换原则</title>
+</head>
+
+<body>
+    <script>
+        // 不好的
+        class Rectangle {
+            constructor() {
+                this.width = 0;
+                this.height = 0;
+            }
+
+            setColor(color) {
+                // ...
+            }
+
+            render(area) {
+                // ...
+            }
+
+            setWidth(width) {
+                this.width = width;
+            }
+
+            setHeight(height) {
+                this.height = height;
+            }
+
+            getArea() {
+                return this.width * this.height;
+            }
+        }
+
+        class Square extends Rectangle {
+            setWidth(width) {
+                this.width = width;
+                this.height = width;
+            }
+
+            setHeight(height) {
+                this.width = height;
+                this.height = height;
+            }
+        }
+
+        function renderLargeRectangles(rectangles) {
+            rectangles.forEach((rectangle) => {
+                rectangle.setWidth(4);
+                rectangle.setHeight(5);
+                const area = rectangle.getArea(); // BAD: Will return 25 for Square. Should be 20.
+                rectangle.render(area);
+                console.log(area);
+            });
+        }
+
+        const rectangles = [new Rectangle(), new Rectangle(), new Square()];
+        renderLargeRectangles(rectangles);
+
+        // 好的
+        class Shape {
+            setColor(color) {
+                // ...
+            }
+
+            render(area) {
+                // ...
+            }
+        }
+
+        class Rectangle1 extends Shape {
+            constructor(width, height) {
+                super();
+                this.width = width;
+                this.height = height;
+            }
+
+            getArea() {
+                return this.width * this.height;
+            }
+        }
+
+        class Square1 extends Shape {
+            constructor(length) {
+                super();
+                this.length = length;
+            }
+
+            getArea() {
+                return this.length * this.length;
+            }
+        }
+
+        function renderLargeShapes(shapes) {
+            shapes.forEach((shape) => {
+                const area = shape.getArea();
+                shape.render(area);
+                console.log(area);
+            });
+        }
+
+        const shapes = [new Rectangle1(4, 5), new Rectangle1(4, 5), new Square1(5)];
+        renderLargeShapes(shapes);
+    </script>
+
+</body>
+
+</html>

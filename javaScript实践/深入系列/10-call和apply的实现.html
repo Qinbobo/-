@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10-call和apply的实现</title>
+    <script src="./common/call.js"></script>
+    <script src="./common/apply.js"></script>
+</head>
+
+<body>
+    <script>
+        //call、 apply方法重用
+        //1、call改变了this的指向 2、bar函数执行了
+        let foo = {
+            value: 1,
+        }
+
+        function bar(name, age) {
+            console.log(name);
+            console.log(age);
+            console.log(this.value);
+
+        }
+
+        bar.call(foo, 'kiny', "22"); //传递参数
+
+        /* 
+        #类似于变成了这个样子
+        let foo = {
+            value:1,
+            bar:function(name, age){
+                console.log(name)
+                console.log(age)
+                console.log(this.value)
+            }
+        }
+        */
+
+        var person = {
+            fullName: function (city, country) {
+                return this.firstName + " " + this.lastName + "," + city + "," + country;
+            }
+        }
+        var person1 = {
+            firstName: "Bill",
+            lastName: "Gates"
+        }
+        let res = person.fullName.apply(person1, ["Oslo", "Norway"]);
+        console.log(res)
+    </script>
+</body>
+
+</html>

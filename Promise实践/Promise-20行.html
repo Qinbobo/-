@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise-20行实现</title>
+</head>
+<body>
+    <script>
+        function Promise(fn){
+            this.cbs = [];
+
+            const resole = (value)=>{
+                setTimeout(()=>{
+                    this.data = value;
+                    this.cbs.forEach((cb)=>cb(value));
+                });
+            }
+            fn(resole);
+        }
+
+        Promise.prototype.then = function(onResolved){
+            return new Promise((resole)=>{
+                this.cbs.push(()=>{
+                    const res = onResolved(this.data);
+                    if(res instanceof Promise){
+                        res.then(resole);
+                    }else{
+                        resole(res);
+                    }
+                });
+            });
+        }
+
+        new Promise((resole)=>{
+            setTimeout(()=>{
+                resole(1);
+            },1000);
+        })
+        .then((value)=>{
+            console.log(value);
+            return new Promise((resole) =>{
+                setTimeout(()=>{
+                    resole(2);
+                }, 1000);
+            });
+        })
+        .then((value)=>{console.log(value)});
+    </script>
+    
+</body>
+</html>
